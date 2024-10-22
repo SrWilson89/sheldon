@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis de Chi-cuadrado</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Análisis de Chi-cuadrado</h1>
+        <form id="chiForm">
+            <label for="observed">Valores Observados (separados por comas):</label>
+            <input type="text" id="observed" required>
+            
+            <label for="expected">Valores Esperados (separados por comas):</label>
+            <input type="text" id="expected" required>
+            
+            <button type="submit">Calcular Chi-cuadrado</button>
+        </form>
+        
+        <div id="result"></div>
+
+        <button id="saveResult">Guardar Resultado</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
