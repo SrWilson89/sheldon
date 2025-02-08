@@ -18,6 +18,7 @@
                 const sdk = SDK;
                 const numbers = ref([]);
                 const prediction = ref(null);
+                const editingIndex = ref(null);
                 const loading = ref(false);
                 const error = ref('');
                 const currentNumber = ref('');
@@ -26,6 +27,19 @@
                     if (currentNumber.value && !isNaN(currentNumber.value)) {
                         numbers.value.push(parseInt(currentNumber.value));
                         currentNumber.value = '';
+                    }
+                };
+                
+                const startEdit = (index) => {
+                    editingIndex.value = index;
+                    currentNumber.value = numbers.value[index].toString();
+                };
+
+                const saveEdit = () => {
+                    if (currentNumber.value && !isNaN(currentNumber.value)) {
+                        numbers.value[editingIndex.value] = parseInt(currentNumber.value);
+                        currentNumber.value = '';
+                        editingIndex.value = null;
                     }
                 };
 
@@ -80,8 +94,11 @@
                     loading,
                     error,
                     currentNumber,
+                    editingIndex,
                     addNumber,
                     clearNumbers,
+                    startEdit,
+                    saveEdit,
                     predictNextNumber
                 };
             }
@@ -110,8 +127,14 @@
                     <button 
                         @click="addNumber"
                         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    >
+                        v-if="editingIndex === null">
                         Agregar
+                    </button>
+                    <button 
+                        @click="saveEdit"
+                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        v-else>
+                        Guardar
                     </button>
                 </div>
             </div>
@@ -122,7 +145,8 @@
                     <span 
                         v-for="(number, index) in numbers" 
                         :key="index"
-                        class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700"
+                        class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 cursor-pointer hover:bg-gray-300"
+                        @click="startEdit(index)"
                     >
                         {{ number }}
                     </span>
